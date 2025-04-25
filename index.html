@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayran Olckers - Terminal CV</title>
+    <style>
+        :root {
+            --green: #00FF00;
+            --bright-green: #33FF33;
+            --dark-green: #007700;
+            --black: #000000;
+            --gray: #CCCCCC;
+            --dark-gray: #333333;
+        }
+
+        body {
+            background-color: var(--black);
+            color: var(--green);
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.4;
+            overflow-x: hidden;
+        }
+
+        .terminal-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .terminal {
+            background-color: var(--black);
+            border: 2px solid var(--dark-green);
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            min-height: 500px;
+        }
+
+        .prompt {
+            color: var(--bright-green);
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .prompt-user {
+            color: var(--bright-green);
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .prompt-symbol {
+            color: var(--bright-green);
+            margin-right: 5px;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background-color: var(--bright-green);
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .typing {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid var(--bright-green);
+            animation: typing 0.8s steps(40) forwards;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        .output {
+            margin: 5px 0 15px 20px;
+            color: var(--gray);
+            display: none;
+            white-space: pre-wrap;
+        }
+
+        .dir-structure {
+            margin-left: 20px;
+            color: var(--gray);
+            white-space: pre-wrap;
+        }
+
+        .dir-item {
+            margin-bottom: 3px;
+        }
+
+        .dir-name {
+            color: var(--bright-green);
+        }
+
+        .download-btn {
+            display: inline-block;
+            background-color: var(--black);
+            color: var(--bright-green);
+            border: 1px solid var(--bright-green);
+            padding: 8px 15px;
+            margin: 0 0 20px 0;
+            text-decoration: none;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s;
+        }
+
+        .download-btn:hover {
+            background-color: var(--bright-green);
+            color: var(--black);
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: var(--dark-gray);
+            height: 2px;
+            margin: 10px 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--bright-green);
+            width: 0%;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            
+            .terminal {
+                padding: 15px;
+            }
+            
+            .output {
+                margin-left: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal-container">
+        <div class="terminal" id="terminal">
+            <!-- Initial Boot Sequence -->
+            <div class="prompt">
+                <span class="prompt-user">system</span>
+                <span class="prompt-symbol">$</span>
+                <span class="typing">booting cv_terminal --user=ayran</span>
+            </div>
+            
+            <div class="output" id="boot-output">
+                <p>Initializing Ayran Intelligence Terminal v2.4.1...</p>
+                <div class="progress-container">
+                    <div class="progress-bar" id="boot-progress"></div>
+                </div>
+                <p id="boot-status">Loading core modules...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const terminal = document.getElementById('terminal');
+            const bootProgress = document.getElementById('boot-progress');
+            const bootStatus = document.getElementById('boot-status');
+            
+            // Boot sequence messages
+            const bootMessages = [
+                { text: "Mounting filesystems...", progress: 20 },
+                { text: "Loading automation modules...", progress: 40 },
+                { text: "Initializing build pipeline...", progress: 60 },
+                { text: "Connecting to version control...", progress: 80 },
+                { text: "System ready!", progress: 100 }
+            ];
+            
+            // Simulate boot sequence
+            let currentStep = 0;
+            const bootInterval = setInterval(() => {
+                if (currentStep < bootMessages.length) {
+                    bootStatus.textContent = bootMessages[currentStep].text;
+                    bootProgress.style.width = bootMessages[currentStep].progress + '%';
+                    currentStep++;
+                } else {
+                    clearInterval(bootInterval);
+                    startTerminalCV();
+                }
+            }, 800);
+            
+            // CV content to display after boot
+            function startTerminalCV() {
+                // Clear boot sequence
+                terminal.innerHTML = '';
+                
+                // Add download link at top
+                const downloadLink = document.createElement('a');
+                downloadLink.href = "https://raw.githubusercontent.com/[YourUsername]/[RepoName]/main/[CV-Filename].pdf";
+                downloadLink.className = "download-btn";
+                downloadLink.textContent = "[DOWNLOAD FULL CV]";
+                downloadLink.setAttribute('download', '');
+                terminal.appendChild(downloadLink);
+                
+                // CV content with proper formatting
+                const cvContent = [
+                    {
+                        prompt: "user@cv-terminal:~$",
+                        command: "cat personal_info.txt",
+                        output: `AYRAN THANE OLCKERS
+Build Pipeline Programmer | Automation Specialist
+Email: ayrantolckers@gmail.com
+Phone: +44 7799 361308
+Website: ayran.dev
+GitHub: TheGeekiestOne
+Location: UK`
+                    },
+                    {
+                        prompt: "user@cv-terminal:~$",
+                        command: "run statement",
+                        output: `> BUILD ENGINEER SPECIALIZING IN AUTOMATION SYSTEMS
+> PASSIONATE ABOUT CI/CD PIPELINES AND TOOLING
+> FOCUSED ON DEVELOPER EXPERIENCE AND RELEASE QUALITY
+> AUTOMATION SPECIALIST SINCE 2015`
+                    },
+                    {
+                        prompt: "user@cv-terminal:~$",
+                        command: "ls skills/",
+                        output: `Languages: Python, PowerShell, Bash
+Automation: TeamCity, Jenkins, Ansible, Docker
+Cloud: AWS, Azure, Linux, Windows Server
+Monitoring: Grafana, Sentry, CloudWatch
+Version Control: Perforce, Git
+Game Engines: Unreal, Unity`
+                    },
+                    {
+                        prompt: "user@cv-terminal:~$",
+                        command: "cat experience.txt",
+                        output: `nDREAMS (2023-PRESENT)
+├─ Build Pipeline Programmer
+├─ Designed VR studio CI/CD infrastructure
+├─ Automated Meta Quest release builds
+└─ Setting up backend server deployment
+
+DR STUDIOS (2022-2022)
+├─ Systems Administrator (Perforce)
+├─ Maintained infrastructure for Steam release of Hawken Reborn
+└─ Automated deployment processes
+
+RACKSPACE (2017-2019)
+├─ Windows Support Specialist II
+└─ Automated tasks with PowerShell`
+                    },
+                    {
+                        prompt: "user@cv-terminal:~$",
+                        command: "cat education.txt",
+                        output: `BSC (HONS) COMPUTER GAMES DEVELOPMENT
+University of Westminster (2018-Present)
+Notable Modules: Game Engine Architecture, Concurrent Programming, 3D Graphics`
+                    }
+                ];
+                
+                // Display CV content sequentially
+                displayContent(cvContent, 0);
+            }
+            
+            function displayContent(content, index) {
+                if (index >= content.length) {
+                    // Add final prompt
+                    const finalPrompt = document.createElement('div');
+                    finalPrompt.className = "prompt";
+                    finalPrompt.innerHTML = `
+                        <span class="prompt-user">user@cv-terminal</span>
+                        <span class="prompt-symbol">:~$</span>
+                        <span class="cursor"></span>
+                    `;
+                    terminal.appendChild(finalPrompt);
+                    return;
+                }
+                
+                const item = content[index];
+                
+                // Create prompt
+                const prompt = document.createElement('div');
+                prompt.className = "prompt";
+                prompt.innerHTML = `
+                    <span class="prompt-user">${item.prompt}</span>
+                    <span class="typing">${item.command}</span>
+                `;
+                terminal.appendChild(prompt);
+                
+                // Create output (initially hidden)
+                const output = document.createElement('div');
+                output.className = "output";
+                output.textContent = item.output; // Using textContent to preserve formatting
+                terminal.appendChild(output);
+                
+                // Show output after typing completes
+                setTimeout(() => {
+                    output.style.display = 'block';
+                    
+                    // Scroll to bottom
+                    terminal.scrollTop = terminal.scrollHeight;
+                    
+                    // Display next item
+                    setTimeout(() => {
+                        displayContent(content, index + 1);
+                    }, 500);
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>
